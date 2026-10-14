@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Nmap GUI
+GenericName=Network Scanner GUI
+GenericName[pt_BR]=Interface Gráfica para o Nmap
+Comment=PyQt6 modern front-end for Nmap Security Scanner
+Comment[pt_BR]=Interface gráfica moderna em PyQt6 para o scanner de rede Nmap
+Exec=nmap-gui
+Icon=network-wired
+Terminal=false
+Categories=Network;Security;System;
+Keywords=network;scanner;nmap;ports;security;
+StartupNotify=true

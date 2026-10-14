@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nmap-gui"
+version = "1.0.0"
+authors = [
+    { name = "Cleber Alves do Nascimento", email = "cleberalves40@github.com" },
+]
+description = "Interface gráfica moderna em PyQt6 para o Nmap Security Scanner com temas customizados e streaming em tempo real"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "BSD-3-Clause" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: BSD :: FreeBSD",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Topic :: Security",
+    "Topic :: System :: Networking",
+]
+dependencies = [
+    "PyQt6>=6.5.0",
+]
+
+[project.scripts]
+nmap-gui = "nmap_gui.window:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["nmap_gui*"]
