@@ -1,4 +1,4 @@
-name: Python Package & Syntax Check
+name: Python Package, Tests & Syntax Check
 
 on:
   push:
@@ -29,8 +29,11 @@ jobs:
 
     - name: Lint and Syntax check
       run: |
-        python -m py_compile run.py nmap_gui/*.py
+        python -m py_compile run.py nmap_gui/*.py tests/*.py
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    - name: Run unit tests
+      run: python -m unittest discover -s tests -v
 
     - name: Test package build
       run: |

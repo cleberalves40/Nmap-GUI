@@ -30,14 +30,27 @@ Projetada com suporte nativo a múltiplos temas (Dark/Light), streaming de saíd
   - `Ping Scan (-sn)`
   - `Default Script Scan (-sC)`
   - `OS Detection (-O)`
+- **Perfis Salvos**: Armazene configurações de scan com nome, aplique-as novamente e remova perfis existentes.
 - **Controle Preciso**:
   - Seleção de portas (`-p`) customizadas.
+  - Importação de listas de alvos (`-iL`) e exclusão de hosts/redes (`--exclude`).
+  - Seleção explícita de IPv6 (`-6`).
+  - Varredura das N portas mais comuns (`--top-ports`), exclusiva com portas customizadas.
+  - Intensidade de detecção de versão (`--version-intensity`, 0 a 9), disponível com `-sV` ou `-A`.
   - Controle de perfis de temporização (`T0` a `T5`).
   - Campo aberto para argumentos extras avançados do Nmap.
   - Opção de saída em XML (`-oX`) para integração com outros sistemas.
   - Timeout configurável por scan.
 - **Interrupção Segura**: Botão "Interromper" encerra o processo do Nmap imediatamente, sem processos zumbis em segundo plano.
-- **Exportação de Relatórios**: Salve facilmente os resultados da análise em arquivos de texto (`.txt`) ou `.xml`.
+- **Resultados Estruturados**: Consulte hosts, portas, estados, serviços, versões e scripts em uma tabela filtrável a partir da saída XML.
+- **Histórico Local**: Execuções concluídas são mantidas entre sessões no diretório de dados da aplicação definido pelo Qt.
+- **Comparação de Scans**: Compare dois resultados XML e veja hosts e portas adicionados, removidos ou alterados.
+- **Exportação de Relatórios**: Salve a saída original do Nmap em `.txt` ou o XML validado sem texto da interface.
+- **Verificação de Versão**: Consulte manualmente a versão estável upstream; o app apenas informa se há atualização e não instala software.
+
+O histórico contém um `history.json`, os perfis em `profiles.json` e os artefatos das execuções em `results/`, dentro de `QStandardPaths.AppDataLocation`. A comparação requer que ambos os scans tenham sido executados com saída XML.
+
+A verificação de versão é iniciada pelo usuário e consulta somente as tags públicas do repositório upstream do Nmap no GitHub. Ela requer conexão com a internet; nenhum resultado de scan ou alvo é enviado. A instalação de uma versão nova é sempre manual.
 
 ---
 
@@ -107,17 +120,24 @@ Ou execute como módulo:
 python3 -m nmap_gui
 ```
 
+## Releases
+
+Para publicar uma release, atualize `project.version` em `pyproject.toml`, valide a CI e envie uma tag correspondente, por exemplo `v1.0.1`. O workflow verifica a correspondência e publica os arquivos source e wheel; nenhum release é criado sem o envio explícito da tag.
+
 ---
 
-## 💡 Dica de Privilégios (SYN Scan & OS Detection)
+## Compatibilidade e Privilégios
 
-Alguns tipos de varredura (como `-sS` e `-O`) exigem privilégios de superusuário (`root`):
+Linux, FreeBSD e macOS são os sistemas documentados neste projeto; a CI executa em Ubuntu. O Windows não está validado pela CI.
 
-- **No Linux/FreeBSD**: Você pode executar com `sudo` ou definir as permissões necessárias no binário com `setcap`:
+Scans com pacotes brutos, como SYN (`-sS`) e detecção de sistema operacional (`-O`), normalmente precisam de privilégios elevados:
+
+- **Linux**: execute com `sudo`. Como alternativa, administradores podem conceder capacidades ao binário `nmap`; isso altera privilégios persistentes e deve ser avaliado antes do uso:
   ```bash
   sudo setcap cap_net_raw,cap_net_admin,cap_net_bind_service+eip $(which nmap)
   ```
-- Alternativamente, selecione o modo **TCP Connect Scan (`-sT`)**, que roda perfeitamente sem permissões especiais.
+- **FreeBSD e macOS**: execute com `sudo`/`doas` conforme a configuração do sistema.
+- **Sem privilégios elevados**: selecione **TCP Connect Scan (`-sT`)**.
 
 ---
 

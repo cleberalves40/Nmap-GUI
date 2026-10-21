@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nmap-gui"
-version = "1.0.0"
+version = "1.1.0"
 authors = [
     { name = "Cleber Alves do Nascimento", email = "cleberalves40@github.com" },
 ]
